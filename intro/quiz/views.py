@@ -13,7 +13,7 @@ from .models import *
 import random
 
 def home(request):
-    context = {'catgories': Types.objects.all()}
+    context = {'categories': Types.objects.all()}
     
     if request.GET.get('gfg'):
         return redirect(f"/quiz/?gfg={request.GET.get('gfg')}")
@@ -28,11 +28,13 @@ def quiz(request):
 
 def get_quiz(request):
     try:
+        # Todas las preguntas
         question_objs = Question.objects.all()
         
+        # Filtrar las preguntas por el cuestionario
         if request.GET.get('gfg'):
             question_objs = question_objs.filter(gfg__gfg_name__icontains = request.GET.get('gfg'))
-            
+        
         question_objs = list(question_objs)
         data = []
         random.shuffle(question_objs)
